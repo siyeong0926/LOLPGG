@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { AuthService } from './auth.service';
+import { User } from './entities/user.entity';
+import { NotFoundException } from '@nestjs/common';
 
 describe('UsersController', () => {
   /**@description 가짜 사본 생성
@@ -29,19 +31,43 @@ describe('UsersController', () => {
      * 물론 모두 구현 할 필요는 없음, 내가 테스트 할 것만
      */
     fakeUserService = {
-      findOne () => {},
-      find () => {},
-      remove () => {},
-      update () => {}
+      findOne: (id: number) => {
+        return Promise.resolve({
+          id,
+          email: 'asdf@asdf.com',
+          password: 'asdf',
+        } as User);
+      },
+      find: (email: string) => {
+        return Promise.resolve([{ id: 1, email, password: 'asdf' } as User]);
+      },
+      // remove: () => {},
+      // update: () => {},
     };
     fakeAuthService = {
-      signup () => {},
-      signin () => {}
+      // signup: () => {},
+      // signin: () => {},
     };
 
     const module: TestingModule = await Test.createTestingModule({
+      /**
+       * @this controller:[UsersController] 테스트 대상을 뜻함 이 컨트롤러가 테스트 중에 사용 될 수 있게 함
+       * @this providers providers 배열은 테스트 환경에서 사용되는 서비스와 프로바이더를 정의 함
+       * @this provide 실제 클래스를 의미하고
+       * @this useValue 실제 클래스를 대체할 가짜 값을 지정함
+       *
+       */
       controllers: [UsersController],
-      providers: [UsersService],
+      providers: [
+        {
+          provide: UsersService,
+          useValue: fakeUserService,
+        },
+        {
+          provide: AuthService,
+          useValue: fakeAuthService,
+        },
+      ],
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
@@ -49,5 +75,10 @@ describe('UsersController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  it('주어진 ID를 가진 사용자를 찾지 못하면 findUser는 오류를 발생시킵니다', async () => {
+    fakeUserService.findOne = () => null;
+    await expect(controller.findUser('1')).rejects.toThrow(NotFoundException);
   });
 });
