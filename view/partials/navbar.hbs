@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ summoner.name }}의 소환사 정보</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<nav class="bg-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-900">홈</a>
+        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700">챔피언 분석</a>
+        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700">랭킹</a>
+      </div>
+      <!-- Authentication Links -->
+      <div id="auth-links" class="flex items-center">
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+
+  function updateAuthLinks() {
+    const authLinks = document.getElementById('auth-links');
+    const token = localStorage.getItem('access_token'); // JWT 토큰 존재 여부 확인
+
+    console.log('로드 된 토큰 :', token);
+
+    if (token) {
+      authLinks.innerHTML = '<button id="logout-button" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그아웃</button>';
+    } else {
+      authLinks.innerHTML = '<a href="/lolp.gg/login" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그인</a>';
+    }
+
+
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        localStorage.removeItem('access_token'); // JWT 토큰 삭제
+        fetch('/lolp.gg/logout', { method: 'POST' })
+          .then(response => {
+            if (response.ok) {
+              window.location.href = '/lolp.gg/login'; // 로그아웃 성공 시 로그인 페이지로 리디렉션
+            }
+          })
+          .catch(error => console.error('로그아웃 에러 :', error));
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', updateAuthLinks);
+</script>
+</body>
+</html>

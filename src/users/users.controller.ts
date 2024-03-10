@@ -8,7 +8,9 @@ import {
   Patch,
   Post,
   Query,
-  Session,
+  Render,
+  Res,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,6 +22,7 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './entities/user.entity';
 import { AuthGuard } from '../guards/auth.guard';
+import { Response } from 'express';
 
 /**
  * @description 데코레이터
@@ -39,7 +42,7 @@ import { AuthGuard } from '../guards/auth.guard';
  * request 객체에 저장함
  * 지금은 APP_INTERCEPTOR 방법으로 대체했음 나중에 필요 하면 사용
  */
-@Controller('auth')
+@Controller('/lolp.gg')
 @Serialize(UserDto)
 export class UsersController {
   constructor(
@@ -56,22 +59,44 @@ export class UsersController {
    * @param user @CurrentUser() 데코레이터를 통해
    * 현재 사용자 정보를 취득해서 user 에 담음
    */
-  @Get('/whoami')
+
+  @Get('/profile')
   @UseGuards(AuthGuard)
-  whoAmI(@CurrentUser() user: User) {
+  getProfile(@CurrentUser() user: User) {
     return user;
   }
 
-  @Post('/signout')
-  signOut(@Session() session: any) {
-    session.userId = null;
+  @Post('/logout')
+  signOut(@Res() res: Response) {
+    res.clearCookie('access_token');
+    return res.status(200).send({ message: '로그아웃 되었습니다.' });
+  }
+
+  @Get('/signup')
+  @Render('signup')
+  showsignup() {
+    return;
   }
 
   @Post('/signup')
-  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signup(body.email, body.password);
-    session.userId = user.id;
-    return user;
+  async createUser(@Body() body: CreateUserDto, @Res() res: Response) {
+    try {
+      await this.authService.signup(body.email, body.password);
+
+      return res.redirect('/lolp.gg/login');
+    } catch (error) {
+      return res
+        .status(400)
+        .send({ message: '회원가입 실패', error: error.message });
+    }
+  }
+
+  //----------------------------------
+
+  @Get('/login')
+  @Render('login')
+  showLogin() {
+    return { message: '로그인 페이지' };
   }
 
   /**
@@ -79,12 +104,25 @@ export class UsersController {
    * @param CreateUserDto - 를 사용하는 이유는
    * 로그인과는 적합하지 않은 이름이지만 email , password 를 검증 하기에는 충분해서
    */
-  @Post('/signin')
-  async signin(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signin(body.email, body.password);
-    session.userId = user.id;
-    return user;
+
+  @Post('/login')
+  async login(@Body() body: CreateUserDto, @Res() res: Response) {
+    try {
+      const user = await this.authService.login(body.email, body.password);
+
+      if (user) {
+        res.json({ access_token: user });
+      } else {
+        res.status(401).json({ message: '승인 되지 않음' });
+      }
+
+      return user;
+    } catch (error) {
+      console.error('로그인 에러 발생함', error.message);
+      throw new UnauthorizedException(' 로그인 실패 ', error.message);
+    }
   }
+  //----------------------------------
 
   @Get('/:id')
   async findUser(@Param('id') id: string) {

@@ -6,6 +6,7 @@ import {
 import { UsersService } from './users.service';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
+import { JwtService } from '@nestjs/jwt';
 
 /**
  * promise 기반으로 작동하는 scrypt 를 이름 그대로 호출하기 위해서
@@ -15,7 +16,10 @@ const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async signup(email: string, password: string) {
     // 이메일이 이미 사용 중인지 확인하기
@@ -55,13 +59,14 @@ export class AuthService {
     return user;
   }
 
-  async signin(email: string, password: string) {
+  async login(email: string, password: string) {
     /**
      * 여러 사용자가 담긴 이메일 배열 목록을 반환하기 떄문에
      * @Param [user] - 를 통해서 이메일을 가진 사용자를 다 대상으로 하되
      * 여기에는 한 명의 사용자만 들어온다고 가정 하는 것
      */
     const [user] = await this.userService.find(email);
+    const payload = { userId: user.id, userEmail: user.email };
 
     if (!user) {
       throw new NotFoundException('없는 사용자 입니다');
@@ -84,6 +89,8 @@ export class AuthService {
     if (storedHash !== hash.toString('hex')) {
       throw new BadRequestException('비밀번호가 틀렸습니다');
     }
-    return user;
+    const access_token = this.jwtService.sign(payload);
+    //console.log('토큰 생성' + access_token);
+    return { access_token };
   }
 }

@@ -7,21 +7,24 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-  create(email: string, password: string) {
+  async create(email: string, password: string) {
     const user = this.repo.create({ email, password });
-
-    return this.repo.save(user);
+    return await this.repo.save(user);
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     if (!id) {
       return null;
     }
-    return this.repo.findOneBy({ id });
+    const user = await this.repo.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(' 유저를 찾지 못했음 ');
+    }
+    return user;
   }
 
-  find(email: string) {
-    return this.repo.find({ where: { email } });
+  async find(email: string) {
+    return await this.repo.find({ where: { email } });
   }
 
   async update(id: number, attrs: Partial<User>) {

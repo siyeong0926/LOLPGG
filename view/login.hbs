@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+
+<div class="rounded-lg shadow-lg w-full max-w-md p-8 bg-white">
+  <div class="text-center">
+    <h3 class="font-semibold text-2xl">로그인</h3>
+    <p class="text-gray-600">계정에 로그인하려면 이메일을 입력하세요.</p>
+  </div>
+
+  <form name="loginForm" action="/lolp.gg/login" method="post" id="loginForm" class="mt-8 space-y-6">
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700">이메일</label>
+      <input type="email" id="email" name="email" required="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="m@example.com">
+    </div>
+    <div>
+      <label for="password" class="block text-sm font-medium text-gray-700">비밀번호</label>
+      <input type="password" id="password" name="password" required="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+    </div>
+    <div class="flex items-center justify-between">
+      <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">로그인</button>
+    </div>
+  </form>
+
+  <div id="loginError" class="hidden text-red-500"></div>
+
+  <form action="/lolp.gg/signup" method="get" class="mt-4">
+    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">회원가입</button>
+  </form>
+
+</div>
+
+<script>
+
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    // 서버에 로그인 요청 보내기 (서버 URL과 로그인 로직에 따라 수정 필요)
+    fetch('/lolp.gg/login', {
+      method: 'POST', // HTTP POST 메서드 사용
+      headers: {'Content-Type': 'application/json'}, // 내용 유형을 JSON으로 지정
+      body: JSON.stringify({email, password}) // 이메일과 비밀번호를 JSON 형태로 변환하여 요청 본문에 포함
+    })
+
+      .then(response => response.json()) // 서버로부터 받은 응답을 JSON 형태로 변환
+      .then(data => { // 변환된 데이터 처리
+        if (data.access_token) { // 응답 데이터에 access_token이 있는지 확인
+          console.log(data.access_token); // 콘솔에 access_token 출력
+          localStorage.setItem('access_token', data.access_token); // 로컬 스토리지에 access_token 저장
+          window.location.href = '/lolp.gg'; // 로그인 성공 시 홈페이지로 리다이렉트
+        }
+      })
+      .catch(error => { // 오류 처리
+        document.getElementById('loginError').textContent = '로그인 실패: 계정 정보를 확인해 주세요.'; // 로그인 에러 메시지 표시
+        document.getElementById('loginError').classList.remove('hidden'); // 에러 메시지를 보이게 함
+      });
+  });
+
+</script>
+
+</body>
+</html>
