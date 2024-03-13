@@ -8,17 +8,17 @@
 </head>
 <body class="bg-gray-100">
 <header class="bg-blue-800 text-white text-center py-6 font-bold text-3xl">
-  소환사 프로필
+  LOLP.GG
 </header>
 
 <main class="max-w-4xl mx-auto p-4">
   <section class="bg-white rounded-lg shadow-lg p-6 mb-6">
     <h2 class="text-2xl font-bold mb-6 text-center">소환사 정보</h2>
     <div class="flex items-center justify-center">
-<!--     소환사 아이콘 넣기 <img alt="Avatar" class="rounded-full w-32 h-32" src="/placeholder.svg">-->
+<!--      <img class="rounded-full w-32 h-32" src="http://ddragon.leagueoflegends.com/cdn/{version}/img/profileicon/{{summoner.profileIconId}}" >-->
       <div class="ml-6">
         <p class="text-xl mb-1">소환사명: <span class="font-semibold">{{ summoner.name }}</span></p>
-        <p class="text-lg">레벨: <span class="font-semibold">{{ summoner.level }}</span></p>
+        <p class="text-lg">레벨: <span class="font-semibold">{{ summoner.summonerLevel }}</span></p>
       </div>
     </div>
   </section>
@@ -48,17 +48,17 @@
   </section>
 
   <section class="bg-white rounded-lg shadow-lg p-6">
-    <h2 class="text-2xl font-bold mb-4">챔피언 숙련도</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-      {{#each championMastery}}
-        <div class="bg-gray-50 rounded-lg shadow p-4 flex flex-col items-center">
-          <img alt="{{this.championName}}" class="w-16 h-16 mb-2" src="{{this.championIcon}}">
-          <p class="text-md font-medium">{{this.championName}}</p>
-          <p class="text-sm">숙련도: {{this.masteryPoints}}</p>
-        </div>
-      {{/each}}
-    </div>
-  </section>
+  <h2 class="text-2xl font-bold mb-4">챔피언 숙련도</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    {{#each championMastery}}
+      <div class="bg-gray-50 rounded-lg shadow p-4 flex flex-col items-center">
+        <img alt="Champion" class="w-16 h-16 mb-2" src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{this.championId}}_0.jpg">
+        <p class="text-md font-medium">Champion ID: {{this.championId}}</p>
+        <p class="text-sm">숙련도: {{this.championPoints}}</p>
+      </div>
+    {{/each}}
+  </div>
+</section>
 </main>
 </body>
 </html>
