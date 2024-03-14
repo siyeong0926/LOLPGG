@@ -27,13 +27,7 @@ export class LolService {
     const url = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${encodeURIComponent(
       summonerName,
     )}`;
-    const headers = {
-      'X-Riot-Token': this.configService.get<string>('X-Riot-Token'),
-      'User-Agent': this.configService.get<string>('USER_AGENT'),
-      'Accept-Language': this.configService.get<string>('ACCEPT_LANGUAGE'),
-      'Accept-Charset': this.configService.get<string>('ACCEPT_CHARSET'),
-      Origin: this.configService.get<string>('ORIGIN'),
-    };
+    const headers = this.createHeaders();
 
     try {
       const response = this.httpService.get(url, { headers });
@@ -48,32 +42,48 @@ export class LolService {
 
   // 소환사 ID를 통해 해당 소환사의 챔피언 숙련도 정보를 가져옴
   async getChampionMastery(summonerPuuid: string) {
-    // console.log(
-    //   'getChampionMastery 에서 소환사 PUUID 출력 확인:',
-    //   summonerPuuid,
-    // );
     const url = `${
       this.baseUrl
     }/lol/champion-mastery/v4/champion-masteries/by-puuid/${encodeURIComponent(
       summonerPuuid,
     )}`;
 
-    const headers = {
-      'X-Riot-Token': this.configService.get<string>('X-Riot-Token'),
-      'User-Agent': this.configService.get<string>('USER_AGENT'),
-      'Accept-Language': this.configService.get<string>('ACCEPT_LANGUAGE'),
-      'Accept-Charset': this.configService.get<string>('ACCEPT_CHARSET'),
-      Origin: this.configService.get<string>('ORIGIN'),
-    };
+    const headers = this.createHeaders();
 
     try {
       const response = this.httpService.get(url, { headers });
       const data = await lastValueFrom(response);
-      console.log('getChampionMastery 데이터 조회', data.data);
+
+      // const sortedMastery = data.data.sort(
+      //   (a, b) => b.championPoints - a.championPoints,
+      // );
+      // return sortedMastery.slice(0, 20);
+
       return data.data;
     } catch (error) {
       console.error('getChampionMastery 요청 중 에러 발생:', error);
       throw error;
+    }
+  }
+
+  async getChampionMap() {
+    const url = `http://ddragon.leagueoflegends.com/cdn/12.5.1/data/en_US/champion.json`;
+    const headers = this.createHeaders();
+
+    try {
+      const response = await lastValueFrom(
+        this.httpService.get(url, { headers }),
+      );
+      const champions = response.data.data;
+      const championMap = {};
+      for (const key in champions) {
+        const champion = champions[key];
+        championMap[champion.key] = champion.name; // championId와 챔피언 이름을 매핑
+      }
+      return championMap;
+    } catch (error) {
+      console.error('getChampionMap 에러:', error);
+      throw new Error('챔피언 정보 가져오기 실패');
     }
   }
 

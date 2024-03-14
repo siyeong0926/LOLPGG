@@ -48,17 +48,24 @@
   </section>
 
   <section class="bg-white rounded-lg shadow-lg p-6">
-  <h2 class="text-2xl font-bold mb-4">챔피언 숙련도</h2>
-  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-    {{#each championMastery}}
-      <div class="bg-gray-50 rounded-lg shadow p-4 flex flex-col items-center">
-        <img alt="Champion" class="w-16 h-16 mb-2" src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{this.championId}}_0.jpg">
-        <p class="text-md font-medium">Champion ID: {{this.championId}}</p>
-        <p class="text-sm">숙련도: {{this.championPoints}}</p>
-      </div>
-    {{/each}}
-  </div>
-</section>
+    <h2 class="text-2xl font-bold mb-6 text-center">챔피언 숙련도</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      {{#each masteryWithNames}}
+        <div class="bg-gray-50 rounded-lg shadow p-4 flex flex-col items-center space-y-3 transition duration-300 hover:bg-blue-100">
+          <img
+            alt="{{this.championName}}"
+            class="w-20 h-20 mb-2 rounded-full mx-auto"
+            src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{this.championName}}_0.jpg">
+          <div class="text-center">
+            <p class="text-md font-semibold text-blue-900">{{this.championName}}</p>
+            <p class="text-sm text-gray-600">숙련도: {{this.championPoints}}</p>
+            <p class="text-xs text-gray-500">마지막 게임: {{this.lastPlayedDate}}</p>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </section>
+
 </main>
 </body>
 </html>
