@@ -67,7 +67,8 @@ export class LolService {
   }
 
   async getChampionMap() {
-    const url = `http://ddragon.leagueoflegends.com/cdn/12.5.1/data/en_US/champion.json`;
+    const url = `http://ddragon.leagueoflegends.com/cdn/14.5.1/data/ko_KR/champion.json`;
+
     const headers = this.createHeaders();
 
     try {
@@ -78,7 +79,11 @@ export class LolService {
       const championMap = {};
       for (const key in champions) {
         const champion = champions[key];
-        championMap[champion.key] = champion.name; // championId와 챔피언 이름을 매핑
+        // 챔피언 ID를 키로 하고, 영문 이름과 한글 이름을 값으로 하는 객체를 저장
+        championMap[champion.key] = {
+          englishName: key, // 영문 이름 (Data Dragon의 key 사용)
+          koreanName: champion.name, // 한글 이름
+        };
       }
       return championMap;
     } catch (error) {
@@ -86,6 +91,19 @@ export class LolService {
       throw new Error('챔피언 정보 가져오기 실패');
     }
   }
+
+  //최근 경기 가져오기
+  // async getRecentMatches(summonerPuuid: string) {
+  //   const url = `${
+  //     this.baseUrl
+  //   }/lol/match/v5/matches/by-puuid/${encodeURIComponent(summonerPuuid)}`;
+  //   const headers = this.createHeaders();
+  //
+  //   const response = this.httpService.get(url, { headers });
+  //   const data = await lastValueFrom(response);
+  //   console.log('getRecentMatches 데이터 조회', data.data);
+  //   return data.data;
+  // }
 
   private createHeaders() {
     return {
@@ -96,22 +114,6 @@ export class LolService {
       Origin: this.configService.get<string>('ORIGIN'),
     };
   }
-
-  // 최근 경기 가져오기
-  // async getRecentMatches(accountId: string) {
-  //   const url = `${this.baseUrl}/lol/match/v4/matchlists/by-account/${accountId}?endIndex=10`;
-  //   const headers = {
-  //     'X-Riot-Token': this.configService.get<string>('X-Riot-Token'),
-  //     'User-Agent': this.configService.get<string>('USER_AGENT'),
-  //     'Accept-Language': this.configService.get<string>('ACCEPT_LANGUAGE'),
-  //     'Accept-Charset': this.configService.get<string>('ACCEPT_CHARSET'),
-  //     Origin: this.configService.get<string>('ORIGIN'),
-  //   };
-  //   const response = this.httpService.get(url, { headers });
-  //   const data = await lastValueFrom(response);
-  //   console.log('getRecentMatches 데이터 조회', data.data);
-  //   return data.data;
-  // }
 
   //챔피언 목록 ?
   // async getChampions() {

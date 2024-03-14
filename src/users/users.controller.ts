@@ -42,7 +42,7 @@ import { Response } from 'express';
  * request 객체에 저장함
  * 지금은 APP_INTERCEPTOR 방법으로 대체했음 나중에 필요 하면 사용
  */
-@Controller('/lolp.gg/user')
+@Controller('/lolp.gg')
 @Serialize(UserDto)
 export class UsersController {
   constructor(
