@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ summoner.name }}의 소환사 정보</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+{{>navbar}}
+
+<div class="flex flex-col w-full min-h-screen">
+  <div class="grid gap-4 p-4 md:gap-8 md:p-10">
+    <div class="mx-auto max-w-4xl">
+      <div class="flex flex-col gap-4 md:gap-8">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:gap-4 lg:gap-6">
+          <div class="flex items-center gap-2 text-2xl font-semibold md:gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+              <circle cx="6" cy="15" r="4"></circle>
+              <circle cx="18" cy="15" r="4"></circle>
+              <path d="M14 15a2 2 0 0 0-2-2 2 2 0 0 0-2 2"></path>
+              <path d="M2.5 13 5 7c.7-1.3 1.4-2 3-2"></path>
+              <path d="M21.5 13 19 7c-.7-1.3-1.5-2-3-2"></path>
+            </svg>
+            <h1>Search</h1></div>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10 ml-auto md:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+            <span class="sr-only">Toggle menu</span></button>
+        </div>
+        <div class="border rounded-lg">
+          <div class="flex items-center h-10 px-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="mr-2 h-4 w-4 text-gray-500 dark:text-gray-400">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+            <input
+              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 placeholder-gray-500 dark:placeholder-gray-400"
+              placeholder="Search summoner..." type="search"></div>
+        </div>
+      </div>
+      <div class="grid gap-4 mt-4 md:gap-8">
+        <div class="border rounded-lg">
+          <div class="flex items-center h-10 px-4">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 rounded-r-none">
+              Search
+            </button>
+          </div>
+        </div>
+        <div class="grid gap-4 md:gap-8">
+          <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-0" data-v0-t="card">
+            <div class="p-4">
+              <div class="grid grid-cols-3 items-center gap-4"><img src="/placeholder.svg" width="100" height="100"
+                                                                    alt="Avatar" class="rounded-full"
+                                                                    style="aspect-ratio: 100 / 100; object-fit: cover;">
+                <div class="space-y-2">
+                  <div class="text-3xl font-bold">{{ summoner.name }} - {{ summoner.tagLine}}</div>
+                  <div class="flex items-center gap-2"><span
+                    class="text-sm font-medium">{{ summonerTier.tier }} {{ summonerTier.rank }}
+                    - {{ summonerTier.leaguePoints }} LP</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="w-4 h-4">
+                      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                      <path d="M4 22h16"></path>
+                      <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                      <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                      <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="flex items-center justify-end space-x-2">
+                  <button
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="w-4 h-4">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                    <span class="sr-only">Add friend</span></button>
+                  <button
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="w-4 h-4">
+                      <path d="M17 6.1H3"></path>
+                      <path d="M21 12.1H3"></path>
+                      <path d="M15.1 18H3"></path>
+                    </svg>
+                    <span class="sr-only">Chat</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+            <div class="flex-col space-y-1.5 p-6 flex items-center gap-4"><h2 class="text-lg font-medium">Recent
+              Performance</h2>
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
+                View Match History
+              </button>
+            </div>
+            <div class="p-0">
+              {{#each recentMatches}}
+              <div class="grid grid-cols-3 items-center gap-4 p-4 border-b last:border-0">
+                <div class="flex items-center gap-2"><img src="/placeholder.svg" width="64" height="64" alt="Champion"
+                                                          class="rounded-full"
+                                                          style="aspect-ratio: 64 / 64; object-fit: cover;">
+                  <div class="flex flex-col">
+                    <div class="font-semibold">{{this.championName}}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                      {{ this.lane}}
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="font-semibold">{{this.win}}</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    {{this.gameData}}
+                  </div>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="font-semibold">KDA</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    {{this.kda}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

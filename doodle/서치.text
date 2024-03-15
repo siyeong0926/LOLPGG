@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ summoner.name }}의 소환사 정보</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 bg-opacity-60 min-h-screen flex items-center justify-center">
+<div class="bg-gray-800 bg-opacity-95 shadow-2xl rounded-xl p-10 max-w-lg w-full space-y-8">
+  <h1 class="text-5xl font-bold text-blue-500 text-center">소환사 검색 결과</h1>
+  <div class="bg-white rounded shadow p-6 m-4">
+    <div class="flex items-center">
+      <img src="http://ddragon.leagueoflegends.com/cdn/12.5.1/img/profileicon/{{ summoner.profileIconId }}.png" alt="{{ summoner.name }}" class="h-20 w-20 rounded-full">
+      <div class="ml-4">
+        <div class="text-lg font-bold">{{ summoner.name }}</div>
+        <div class="text-md">레벨: {{ summoner.summonerLevel }}</div>
+      </div>
+    </div>
+  </div>
+  <!-- 여기에 추가 데이터를 표시할 수 있습니다. 예를 들어, 최근 게임 성적, 랭크 정보 등 -->
+</div>
+<footer class="absolute bottom-0 w-full text-center py-4 bg-gray-800 bg-opacity-90 text-gray-400">
+  &copy; 2024 LOLP.GG. All rights reserved.
+</footer>
+</body>
+</html>

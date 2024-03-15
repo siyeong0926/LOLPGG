@@ -40,6 +40,25 @@ export class LolService {
     }
   }
 
+  //소환사 랭크
+  async getSummonerRank(summonerId: string) {
+    const url = `${
+      this.baseUrl
+    }/lol/league/v4/entries/by-summoner/${encodeURIComponent(summonerId)}`;
+    const headers = this.createHeaders();
+
+    try {
+      const response = await lastValueFrom(
+        this.httpService.get(url, { headers }),
+      );
+      const ranks = response.data;
+      return ranks;
+    } catch (error) {
+      console.error('getSummonerRank 요청 중 에러 발생:', error);
+      throw error;
+    }
+  }
+
   // 소환사 ID를 통해 해당 소환사의 챔피언 숙련도 정보를 가져옴
   async getChampionMastery(summonerPuuid: string) {
     const url = `${
@@ -53,11 +72,6 @@ export class LolService {
     try {
       const response = this.httpService.get(url, { headers });
       const data = await lastValueFrom(response);
-
-      // const sortedMastery = data.data.sort(
-      //   (a, b) => b.championPoints - a.championPoints,
-      // );
-      // return sortedMastery.slice(0, 20);
 
       return data.data;
     } catch (error) {
@@ -92,18 +106,62 @@ export class LolService {
     }
   }
 
-  //최근 경기 가져오기
-  // async getRecentMatches(summonerPuuid: string) {
-  //   const url = `${
-  //     this.baseUrl
-  //   }/lol/match/v5/matches/by-puuid/${encodeURIComponent(summonerPuuid)}`;
+  // //최근 경기 가져오기
+  // async getRecentMatches(matchesPuuid: string) {
+  //   const url = `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${encodeURIComponent(
+  //     matchesPuuid,
+  //   )}/ids?start=0&count=20`;
   //   const headers = this.createHeaders();
   //
   //   const response = this.httpService.get(url, { headers });
   //   const data = await lastValueFrom(response);
-  //   console.log('getRecentMatches 데이터 조회', data.data);
+  //   //console.log('getRecentMatches 데이터 조회', data.data);
   //   return data.data;
   // }
+
+  // 가져온 최근 경기에서 KDA, 게임 , 결과 가져오기
+  // async getMatchDetails(matchIds: string[]) {
+  //   const matchesDetails = [];
+  //   for (const matchId of matchIds) {
+  //     const url = `https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}`;
+  //     const headers = this.createHeaders();
+  //
+  //     try {
+  //       await this.delay(1200 / matchIds.length); // API 속도 제한에 맞추어 요청 간 지연 추가
+  //       const response = await lastValueFrom(
+  //         this.httpService.get(url, { headers }),
+  //       );
+  //       const matchData = response.data;
+  //
+  //       const dataCZ = {
+  //         info: {
+  //           id: matchData.info.gameId,
+  //           win: matchData.info.participants.win,
+  //           participants: matchData.info.participants,
+  //           time: {
+  //             start: matchData.info.gameStartTimestamp,
+  //             end: matchData.info.gameEndTimestamp,
+  //             play:
+  //               matchData.info.gameEndTimestamp -
+  //               matchData.info.gameStartTimestamp,
+  //           },
+  //         },
+  //       };
+  //       console.log('dataCZ 출력용', dataCZ);
+  //     } catch (error) {
+  //       console.error(
+  //         `매치 ID ${matchId}에 대한 상세 정보 조회 중 에러 발생:`,
+  //         error,
+  //       );
+  //     }
+  //   }
+  //
+  //   return matchesDetails;
+  // }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   private createHeaders() {
     return {
@@ -114,37 +172,4 @@ export class LolService {
       Origin: this.configService.get<string>('ORIGIN'),
     };
   }
-
-  //챔피언 목록 ?
-  // async getChampions() {
-  //   const url = `http://ddragon.leagueoflegends.com/cdn/12.5.1/data/en_US/champion.json`;
-  //   const headers = {
-  //     'X-Riot-Token': this.configService.get<string>('X-Riot-Token'),
-  //     'User-Agent': this.configService.get<string>('USER_AGENT'),
-  //     'Accept-Language': this.configService.get<string>('ACCEPT_LANGUAGE'),
-  //     'Accept-Charset': this.configService.get<string>('ACCEPT_CHARSET'),
-  //     Origin: this.configService.get<string>('ORIGIN'),
-  //   };
-  //
-  //   const response = this.httpService.get(url, { headers });
-  //   const data = await lastValueFrom(response);
-  //   console.log('getChampions 데이터 조회', data.data);
-  //   return data.data;
-  // }
-
-  //소환사 티어
-  // async getSummonerTier(summonerId: string) {
-  //   const url = `${this.baseUrl}/lol/league/v4/entries/by-summoner/${summonerId}`;
-  //   const headers = {
-  //     'X-Riot-Token': this.configService.get<string>('X-Riot-Token'),
-  //     'User-Agent': this.configService.get<string>('USER_AGENT'),
-  //     'Accept-Language': this.configService.get<string>('ACCEPT_LANGUAGE'),
-  //     'Accept-Charset': this.configService.get<string>('ACCEPT_CHARSET'),
-  //     Origin: this.configService.get<string>('ORIGIN'),
-  //   };
-  //   const response = this.httpService.get(url, { headers });
-  //   const data = await lastValueFrom(response);
-  //   console.log('getSummonerTier 데이터 조회', data.data);
-  //   return data.data;
-  // }
 }

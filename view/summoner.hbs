@@ -21,34 +21,49 @@
       <div>
         <p class="text-xl mb-1">소환사명: <span class="font-semibold text-blue-900">{{ summoner.name }}</span></p>
         <p class="text-lg">레벨: <span class="font-semibold text-blue-900">{{ summoner.summonerLevel }}</span></p>
+        <p class="text-lg">LP: <span class="font-semibold text-blue-900">{{ summonerRank.leaguePoints }}</span></p>
+        <p class="text-lg">Rank: <span class="font-semibold text-blue-900">{{ summonerRank.rank }}</span></p>
+
       </div>
     </div>
   </section>
 
 
-  <section class="bg-white rounded-lg shadow-lg p-6 mb-6">
-    <h2 class="text-2xl font-bold mb-4 text-center">최근 성적</h2>
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white">
-        <thead class="bg-blue-800 text-white">
-        <tr>
-          <th class="py-2 px-4">게임</th>
-          <th class="py-2 px-4">결과</th>
-          <th class="py-2 px-4">K/D/A</th>
-        </tr>
-        </thead>
-        <tbody class="text-gray-700">
-        {{#each recentMatches}}
-          <tr>
-            <td class="border px-4 py-2">{{this.gameMode}}</td>
-            <td class="border px-4 py-2">{{this.result}}</td>
-            <td class="border px-4 py-2">{{this.kda}}</td>
-          </tr>
-        {{/each}}
-        </tbody>
-      </table>
-    </div>
-  </section>
+<!--  <section class="bg-white rounded-lg shadow-lg p-6 mb-6">-->
+<!--    <h2 class="text-2xl font-bold mb-4 text-center">최근 성적</h2>-->
+<!--    <div class="overflow-x-auto">-->
+<!--      <table class="min-w-full bg-white">-->
+<!--        <thead class="bg-blue-800 text-white">-->
+<!--        <tr>-->
+<!--          <th class="py-2 px-4">게임</th>-->
+<!--          <th class="py-2 px-4">결과</th>-->
+<!--          <th class="py-2 px-4">챔피언</th>-->
+<!--          <th class="py-2 px-4">K/D/A</th>-->
+<!--          <th class="py-2 px-4">골드 획득</th>-->
+<!--          <th class="py-2 px-4">총 데미지</th>-->
+<!--          <th class="py-2 px-4">힐량</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody class="text-gray-700">-->
+<!--        {{#each relevantMatchDetails}}-->
+<!--          <tr>-->
+<!--            <td class="border px-4 py-2">{{this.gameMode}}</td>-->
+<!--            <td class="border px-4 py-2">{{this.win ? '승리' : '패배'}}</td>-->
+<!--            <td class="border px-4 py-2">-->
+<!--              <img src="http://ddragon.leagueoflegends.com/cdn/14.5.1/img/champion/{{this.englishName}}.png" alt="{{this.championName}}" class="w-8 h-8 inline-block">-->
+<!--              {{this.championName}}-->
+<!--            </td>-->
+<!--            <td class="border px-4 py-2">{{this.kills}}/{{this.deaths}}/{{this.assists}}</td>-->
+<!--            <td class="border px-4 py-2">{{this.goldEarned}}</td>-->
+<!--            <td class="border px-4 py-2">{{this.totalDamageDealtToChampions}}</td>-->
+<!--            <td class="border px-4 py-2">{{this.totalHeal}}</td>-->
+<!--          </tr>-->
+<!--        {{/each}}-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+<!--  </section>-->
+
 
   <section class="bg-white rounded-lg shadow-lg p-6">
     <h2 class="text-2xl font-bold mb-6 text-center">챔피언 숙련도</h2>

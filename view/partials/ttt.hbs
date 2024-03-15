@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ summoner.name }}의 소환사 정보</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<nav class="bg-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-900">홈</a>
+        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700">챔피언 분석</a>
+        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700">랭킹</a>
+      </div>
+      <!-- Authentication Links -->
+      <div class="flex items-center">
+        {{#if userIsAuthenticated}}
+          <a href="/logout" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그아웃</a>
+        {{else}}
+          <a href="/lolp.gg/login" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그인</a>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  function saveTokenAfterLogin() {
+    // 예를 들어, 로그인 요청 후 서버로부터 토큰을 받는 과정
+    fetch('/lolp.gg/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: 'user@example.com', password: 'password' })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.access_token) {
+          localStorage.setItem('access_token', data.access_token);
+          updateAuthLinks();
+        }
+      })
+      .catch(error => console.error('Login Error:', error));
+  }
+
+
+  function updateAuthLinks() {
+    const authLinks = document.getElementById('auth-links');
+    const token = localStorage.getItem('access_token'); // JWT 토큰 존재 여부 확인
+
+    if (token) {
+      authLinks.innerHTML = '<a href="#" methods="post" id="logout-button" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그아웃</a>';
+    } else {
+      authLinks.innerHTML = '<a href="/lolp.gg/login" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그인</a>';
+    }
+
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        localStorage.removeItem('access_token'); // JWT 토큰 삭제
+        fetch('/lolp.gg/logout', { method: 'POST' })
+          .then(response => {
+            if (response.ok) {
+              window.location.href = '/lolp.gg/login'; // 로그아웃 성공 시 로그인 페이지로 리디렉션
+            }
+          })
+          .catch(error => console.error('Error logging out:', error));
+      });
+    }
+  }
+
+  updateAuthLinks(); // 페이지 로드 시 인증 링크 업데이트
+</script>
+</body>
+</html>
