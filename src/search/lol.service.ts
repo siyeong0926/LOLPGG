@@ -4,6 +4,7 @@ import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import { SummonerDto } from './dto/summoner.dto';
+import { RankDto } from './dto/rank.dto';
 
 @Injectable()
 export class LolService {
@@ -41,7 +42,7 @@ export class LolService {
   }
 
   //소환사 랭크
-  async getSummonerRank(summonerId: string) {
+  async getSummonerRank(summonerId: string): Promise<RankDto[]> {
     const url = `${
       this.baseUrl
     }/lol/league/v4/entries/by-summoner/${encodeURIComponent(summonerId)}`;
@@ -49,10 +50,15 @@ export class LolService {
 
     try {
       const response = await lastValueFrom(
-        this.httpService.get(url, { headers }),
+        this.httpService.get<RankDto[]>(url, { headers }),
       );
-      const ranks = response.data;
-      return ranks;
+      const rank = response.data.map((entry) => {
+        //console.log('엔트리 출력', entry.tier, entry.rank, entry.leaguePoints);
+        return {
+          ...entry,
+        };
+      });
+      return rank;
     } catch (error) {
       console.error('getSummonerRank 요청 중 에러 발생:', error);
       throw error;

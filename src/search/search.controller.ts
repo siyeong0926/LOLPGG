@@ -24,7 +24,7 @@ export class SearchController {
       await this.delay(1000); // 딜레이 추가
 
       const summonerRank = await this.lolService.getSummonerRank(summoner.id);
-      this.logger.log(`소환사 랭크 정보 조회됨 : ${summonerRank}`);
+      this.logger.log(`소환사 랭크 정보 조회됨 :`, summonerRank);
 
       const championMastery = await this.lolService.getChampionMastery(
         summoner.puuid,
@@ -72,9 +72,7 @@ export class SearchController {
           lastPlayedDate: lastPlayedDate,
         };
       });
-
-      console.log('summonerRank 출력', summonerRank);
-
+      console.log('리턴 전에 서머너 랭크 출력', summonerRank);
       return {
         summoner,
         summonerRank,
