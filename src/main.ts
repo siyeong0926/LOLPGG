@@ -32,6 +32,10 @@ async function bootstrap() {
 
   hbs.registerPartials(join(__dirname, '..', 'view', 'partials'));
 
+  hbs.registerHelper('inc', function (value) {
+    return parseInt(value) + 1;
+  });
+
   app.use(
     cookieSession({
       keys: ['asdfasdf'],

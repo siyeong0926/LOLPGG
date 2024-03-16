@@ -27,7 +27,7 @@
         <div class="flex space-x-4">
 <!--          <a href="#" class="text-white hover:text-custom-gold px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">홈</a>-->
           <a href="#" class="text-white hover:text-custom-gold px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">챔피언 분석</a>
-          <a href="/lolp.gg/ranking" class="text-white hover:text-custom-gold px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">랭킹</a>
+          <a href="/lolp.gg/search/ranking" class="text-white hover:text-custom-gold px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">랭킹</a>
         </div>
       </div>
       <!-- 인증 링크 -->
@@ -53,8 +53,8 @@
     if (token) {
       authLinks.innerHTML = '<button id="logout-button" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그아웃</button>';
     } else {
-      authLinks.innerHTML = '<a href="/lolp.gg/login" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그인</a>';
-      authLinks.innerHTML += '<a href="/lolp.gg/signup" class="text-white px-3 py-2 rounded-md text-sm font-medium">회원가입</a>';
+      authLinks.innerHTML = '<a href="/lolp.gg/user/login" class="text-white px-3 py-2 rounded-md text-sm font-medium">로그인</a>';
+      authLinks.innerHTML += '<a href="/lolp.gg/user/signup" class="text-white px-3 py-2 rounded-md text-sm font-medium">회원가입</a>';
     }
 
 
@@ -63,10 +63,10 @@
       logoutButton.addEventListener('click', function(event) {
         event.preventDefault();
         localStorage.removeItem('access_token'); // JWT 토큰 삭제
-        fetch('/lolp.gg/logout', { method: 'POST' })
+        fetch('/lolp.gg/user/logout', { method: 'POST' })
           .then(response => {
             if (response.ok) {
-              window.location.href = '/lolp.gg/login'; // 로그아웃 성공 시 로그인 페이지로 리디렉션
+              window.location.href = '/lolp.gg'; // 로그아웃 성공 시 로그인 페이지로 리디렉션
             }
           })
           .catch(error => console.error('로그아웃 에러 :', error));

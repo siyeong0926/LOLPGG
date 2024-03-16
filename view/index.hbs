@@ -20,7 +20,7 @@
     <p class="mt-2 text-white text-lg">LOLP.GG에서 소환사의 전적을 살펴보세요.</p>
   </div>
 
-  <form action="/search" method="GET" class="mt-8 space-y-6">
+  <form action="/lolp.gg/search" id="lolpggForm" name="lolpgg" method="GET" class="mt-8 space-y-6">
     <div class="rounded-md shadow-sm">
       <div>
         <input type="text" name="summonerName" id="summonerName" required
@@ -41,10 +41,10 @@
 
 
 <script>
-  document.getElementById('searchForm').addEventListener('submit', function(event) {
+  document.getElementById('lolpggForm').addEventListener('submit', function(event) {
     event.preventDefault();
     var summonerName = document.getElementById('summonerName').value;
-    window.location.href = '/search?summonerName=' + encodeURIComponent(summonerName);
+    window.location.href = '/lolp.gg/search?summonerName=' + encodeURIComponent(summonerName);
   });
 </script>
 

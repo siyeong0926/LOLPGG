@@ -3,18 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>소환사 랭킹 TOP100</title>
+  <title>소환사 랭킹 TOP20</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0/dist/tailwind.min.css" rel="stylesheet">
   <style>
     .bg-theme-gradient {
       background-image: linear-gradient(to right, #0a0a0a, #2c3e50);
     }
+    .text-enhanced {
+      color: #e2e8f0; /* 밝은 회색으로 가독성 향상 */
+      font-weight: bold;
+    }
+    .icon {
+      width: 20px;
+      height: 20px;
+      background-size: cover;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    .table-header {
+      background-color: #4a5568; /* Tailwind CSS gray-700 */
+    }
+    .table-cell {
+      background-color: #2d3748; /* Tailwind CSS gray-800 */
+      color: #e2e8f0; /* 밝은 회색 텍스트 */
+    }
+
+      .custom-gradient-text {
+        background-image: linear-gradient(to right, #f6d365, #fda085);
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .custom-golden {
+        color: #ffd700;
+      }
+
+      .custom-golden-border {
+        border-color: #ffd700;
+      }
+
+      .rainbow-text {
+        background-image: linear-gradient(to left, red, orangered, yellow, skyblue, hotpink, greenyellow);
+        color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text; /* Chrome과 Safari를 위한 벤더 프리픽스 */
+
+      }
+
   </style>
 </head>
 <body class="bg-theme-gradient min-h-screen flex flex-col items-center justify-center">
 <header class="text-center py-6">
-  <h1 class="text-4xl text-white font-bold mb-2">소환사 랭킹 TOP100</h1>
-  <p class="text-md text-gray-300 mb-4">League of Legends 공식 랭킹</p>
+    <a href="/lolp.gg" class="text-4xl font-bold custom-gradient-text mb-4">LOLP.GG</a>
+  <h1 class="text-5xl text-white font-bold mb-2">소환사 랭킹 TOP20</h1>
+  <p class="text-lg text-gray-400 mb-4">League of Legends 공식 랭킹</p>
 </header>
 
 <main class="container mx-auto p-4">
@@ -22,28 +64,53 @@
     <table class="min-w-full leading-normal">
       <thead>
       <tr>
-        <th class="text-xl px-5 py-3 bg-gray-600 text-left text-xs font-semibold text-white uppercase tracking-wider">
-          랭크
+        <th class="px-1 py-3 table-header text-center text-xl font-semibold text-white uppercase tracking-wider">
+          랭킹
         </th>
-        <th class="text-xl px-5 py-3 bg-gray-600 text-center text-xs font-semibold text-white uppercase tracking-wider">
-          소환사명
+        <th class="px-3 py-3 table-header text-center text-xl font-semibold text-white uppercase tracking-wider">
+          소환사
         </th>
-        <th class="text-xl px-5 py-3 bg-gray-600 text-right text-xs font-semibold text-white uppercase tracking-wider">
-          점수
+        <th class="px-3 py-3 table-header text-center text-xl font-semibold text-white uppercase tracking-wider">
+          티어
+        </th>
+        <th class="px-3 py-3 table-header text-center text-xl font-semibold text-white uppercase tracking-wider">
+          LP
+        </th>
+        <th class="px-3 py-3 table-header text-center text-xl font-semibold text-white uppercase tracking-wider">
+          레벨
+        </th>
+        <th class="px-3 py-3 table-header text-center text-xl font-semibold text-white uppercase tracking-wider">
+          승
+        </th>
+        <th class="px-3 py-3 table-header text-center text-xl font-semibold text-white uppercase tracking-wider">
+          패
         </th>
       </tr>
       </thead>
       <tbody>
-      {{#each topPlayers}}
-        <tr class="border-b border-gray-200">
-          <td class="px-5 py-5 text-sm bg-white">
-            {{@index 1}} <!-- @index는 0부터 시작하므로 1을 더합니다 -->
+      {{#each topPlayers as |player index|}}
+        <tr>
+          <td class="px-1 py-5 table-cell text-sm text-center">
+            {{inc index}}
           </td>
-          <td class="px-5 py-5 text-sm bg-white">
-            {{this.summonerName}}
+          <td class="px-5 py-5 table-cell text-m flex text-center items-center justify-center">
+            <span class="icon" style="background-image: url('http://ddragon.leagueoflegends.com/cdn/14.5.1/img/profileicon/{{player.profileIconId}}.png');"></span>
+            {{player.summonerName}}
           </td>
-          <td class="px-5 py-5 text-sm bg-white">
-            {{this.leaguePoints}}
+          <td class="px-5 py-5 table-cell text-m text-center">
+            Challenger
+          </td>
+          <td class="px-5 py-5 table-cell text-m text-center">
+            {{player.leaguePoints}}
+          </td>
+          <td class="px-5 py-5 table-cell text-m text-center">
+            {{player.level}}
+          </td>
+          <td class="px-5 py-5 table-cell text-m text-center">
+            {{player.wins}}
+          </td>
+          <td class="px-5 py-5 table-cell text-m text-center">
+            {{player.losses}}
           </td>
         </tr>
       {{/each}}

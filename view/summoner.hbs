@@ -39,13 +39,15 @@
   <section class="bg-gray-750 rounded-lg p-6 mb-6 transform transition duration-500 hover:scale-105">
     <h2 class="text-3xl font-bold mb-6 text-center rainbow-text">소환사 정보</h2>
     <div class="flex flex-col items-center justify-center space-y-4">
-      <img class="w-40 h-40 rounded-full custom-golden-border border-4" src="http://ddragon.leagueoflegends.com/cdn/14.5.1/img/profileicon/{{summoner.profileIconId}}.png" alt="소환사 아이콘">
+      <img class="w-40 h-40 rounded-full custom-golden-border border-4"
+           src="http://ddragon.leagueoflegends.com/cdn/14.5.1/img/profileicon/{{summoner.profileIconId}}.png" alt="소환사 아이콘">
       <div class="text-center">
         <p class="text-xl mb-1 font-bold custom-golden">{{ summoner.name }}</p>
         <p class="text-lg">레벨 : <span class="font-semibold text-pink-500">{{ summoner.summonerLevel }}</span></p>
         <p class="text-lg">Rank : <span class="font-semibold text-green-500">{{ summonerRank.0.tier }} {{ summonerRank.0.rank }}</span></p>
         <p class="text-lg">LP : <span class="font-semibold text-purple-500">{{ summonerRank.0.leaguePoints }}</span></p>
-        <p class="text-lg">승리 : <span class="font-semibold text-blue-500">{{ summonerRank.0.wins }}</span>, 패배: <span class="font-semibold text-red-500">{{ summonerRank.0.losses }}</span></p>
+        <p class="text-lg">승리 : <span class="font-semibold text-blue-500">{{ summonerRank.0.wins }}</span>,
+          패배: <span class="font-semibold text-red-500">{{ summonerRank.0.losses }}</span></p>
       </div>
     </div>
   </section>

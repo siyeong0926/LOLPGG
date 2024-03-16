@@ -40,10 +40,10 @@ export class SummonerDto {
 
   profileIconId: string;
 }
-
-/** 2023/06/28 - 게임 타입 - by 1-blue */
+//게임타입
 type RiotQueueType = 'RANKED_SOLO_5x5' | 'RANKED_FLEX_SR';
-/** 2023/06/28 - 소환사 티어 - by 1-blue */
+
+//소환사 티어
 type RiotTier =
   | 'CHALLENGER'
   | 'GRANDMASTER'
@@ -55,5 +55,6 @@ type RiotTier =
   | 'SILVER'
   | 'BRONZE'
   | 'IRON';
-/** 2023/06/28 - 소환사 랭크 - by 1-blue */
+
+// 티어 별 랭크단계
 type RiotRank = 'I' | 'II' | 'III' | 'IV';

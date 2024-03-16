@@ -13,7 +13,7 @@
     <p class="text-gray-600">계정에 로그인하려면 이메일을 입력하세요.</p>
   </div>
 
-  <form name="loginForm" action="/lolp.gg/login" method="post" id="loginForm" class="mt-8 space-y-6">
+  <form name="loginForm" action="/lolp.gg/user/login" method="post" id="loginForm" class="mt-8 space-y-6">
     <div>
       <label for="email" class="block text-sm font-medium text-gray-700">이메일</label>
       <input type="email" id="email" name="email" required="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="m@example.com">
@@ -29,7 +29,7 @@
 
   <div id="loginError" class="hidden text-red-500"></div>
 
-  <form action="/lolp.gg/signup" method="get" class="mt-4">
+  <form action="/lolp.gg/user/signup" method="get" class="mt-4">
     <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">회원가입</button>
   </form>
 
@@ -44,7 +44,7 @@
     var password = document.getElementById('password').value;
 
     // 서버에 로그인 요청 보내기 (서버 URL과 로그인 로직에 따라 수정 필요)
-    fetch('/lolp.gg/login', {
+    fetch('/lolp.gg/user/login', {
       method: 'POST', // HTTP POST 메서드 사용
       headers: {'Content-Type': 'application/json'}, // 내용 유형을 JSON으로 지정
       body: JSON.stringify({email, password}) // 이메일과 비밀번호를 JSON 형태로 변환하여 요청 본문에 포함

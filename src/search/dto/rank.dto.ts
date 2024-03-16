@@ -3,7 +3,7 @@ export class RankDto {
   summonerId: string;
   summonerName: string;
   queueType: string;
-  tier: string;
+  tier: RiotTier;
   rank: string;
   leaguePoints: number;
   wins: number;
@@ -21,3 +21,16 @@ export class MiniSeriesDto {
   target: number;
   wins: number;
 }
+
+//소환사 티어
+type RiotTier =
+  | 'CHALLENGER'
+  | 'GRANDMASTER'
+  | 'MASTER'
+  | 'DIAMOND'
+  | 'EMERALD'
+  | 'PLATINUM'
+  | 'GOLD'
+  | 'SILVER'
+  | 'BRONZE'
+  | 'IRON';

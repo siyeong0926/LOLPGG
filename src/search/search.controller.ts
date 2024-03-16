@@ -1,9 +1,7 @@
 import { Controller, Get, Logger, Query, Render } from '@nestjs/common';
 import { LolService } from './lol.service';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Riot API')
-@Controller('/search')
+@Controller('/lolp.gg/search')
 export class SearchController {
   private readonly logger = new Logger(SearchController.name);
 
@@ -24,8 +22,13 @@ export class SearchController {
       this.logger.log(`소환사 정보 조회됨: ${summoner.name}`); // 간소화된 로깅
       await this.delay(1000); // 딜레이 추가
 
+      const smId = await this.lolService.findSummonerById(summoner.id);
+      this.logger.log(`소환사 정보 조회됨: ${smId}`); // 간소화된 로깅
+      await this.delay(1000); // 딜레이 추가
+
       const summonerRank = await this.lolService.getSummonerRank(summoner.id);
       this.logger.log(`소환사 랭크 정보 조회됨 :`, summonerRank);
+      await this.delay(1000); // 딜레이 추가
 
       const championMastery = await this.lolService.getChampionMastery(
         summoner.puuid,
@@ -73,7 +76,7 @@ export class SearchController {
           lastPlayedDate: lastPlayedDate,
         };
       });
-      console.log('리턴 전에 서머너 랭크 출력', summonerRank);
+      console.log('리턴 전에 출력', summoner);
       return {
         summoner,
         summonerRank,
@@ -83,6 +86,42 @@ export class SearchController {
     } catch (error) {
       this.logger.error(`오류 발생: ${error.message}`);
       throw new Error('사용자 정보를 가져 올 수 없음');
+    }
+  }
+  @Get('/ranking')
+  @Render('ranking')
+  async getTopRanking(@Query('queue') queue: string) {
+    if (!queue) {
+      queue = 'RANKED_SOLO_5x5';
+    }
+
+    try {
+      const topPlayers = await this.lolService.getChallengerPlayers(queue);
+      // console.log('탑플레이어 출력', topPlayers);
+      const detailedPlayers = [];
+
+      for (const player of topPlayers) {
+        const summonerDetails = await this.lolService.findSummonerById(
+          player.summonerId,
+        );
+
+        detailedPlayers.push({
+          rank: player.rank,
+          summonerName: summonerDetails.name,
+          profileIconId: summonerDetails.profileIconId,
+          leaguePoints: player.leaguePoints,
+          level: summonerDetails.summonerLevel, // 소환사 레벨 정보 추가
+          wins: player.wins,
+          losses: player.losses,
+        });
+      }
+      // console.log('디테일 플레이어 출력', detailedPlayers);
+      return {
+        topPlayers: detailedPlayers,
+      };
+    } catch (error) {
+      console.error(`오류 발생: ${error.message}`);
+      throw error;
     }
   }
 
