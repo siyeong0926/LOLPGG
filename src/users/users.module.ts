@@ -10,6 +10,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import * as process from 'process';
 import { ConfigModule } from '@nestjs/config';
+import { SearchModule } from '../search/search.module';
 
 /**
  *
@@ -35,6 +36,7 @@ import { ConfigModule } from '@nestjs/config';
       secret: process.env.JWT_SECRET || 'sv8vrie837dnxmxkw938tkgkdmc9e9gkrgkf',
       signOptions: { expiresIn: '24h' },
     }),
+    SearchModule,
   ],
   controllers: [UsersController],
   providers: [

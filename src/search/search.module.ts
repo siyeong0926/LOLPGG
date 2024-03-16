@@ -8,5 +8,6 @@ import { HttpModule } from '@nestjs/axios';
   imports: [HttpModule],
   controllers: [SearchController],
   providers: [SearchService, LolService],
+  exports: [LolService],
 })
 export class SearchModule {}

@@ -8,6 +8,7 @@ export class SearchController {
   private readonly logger = new Logger(SearchController.name);
 
   constructor(private lolService: LolService) {}
+  // 상위 100위 소환사 랭킹을 조회하는 라우트
 
   @Get()
   @Render('summoner')

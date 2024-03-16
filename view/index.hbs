@@ -5,46 +5,40 @@
   <title>LOLP.GG 소환사 검색</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    body {
-      background-image: url('https://your-background-image-url.com');
-      background-size: cover;
-      background-position: center;
-    }
-    input::placeholder {
-      text-align: center;
-    }
-    input:focus::placeholder {
-      text-align: start;
+    .custom-gradient {
+      background-image: linear-gradient(to right, #0a0a0a, #2c3e50);
     }
   </style>
 </head>
-<body class="bg-gray-900 bg-opacity-60 min-h-screen">
+<body class="custom-gradient min-h-screen flex items-center justify-center p-6">
 
 {{>navbar}}
 
-<!-- Main Content -->
-<div class="flex items-center justify-center min-h-screen" style="z-index: 10;">
-  <div class="bg-gray-800 bg-opacity-95 shadow-2xl rounded-xl p-10 max-w-lg w-full space-y-8">
-    <h1 class="text-5xl font-bold text-blue-500 text-center">소환사 검색</h1>
-    <p class="text-lg text-gray-300 text-center">LOLP.GG에서 소환사의 전적을 살펴보세요.</p>
-    <form action="/search" id="searchForm" method="GET" class="space-y-6">
+<div class="max-w-2xl w-full space-y-8">
+  <div class="text-center">
+    <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">소환사 검색</h1>
+    <p class="mt-2 text-white text-lg">LOLP.GG에서 소환사의 전적을 살펴보세요.</p>
+  </div>
+
+  <form action="/search" method="GET" class="mt-8 space-y-6">
+    <div class="rounded-md shadow-sm">
       <div>
-        <input type="text" id="summonerName" name="summonerName"
-               required class="mt-2 w-full rounded-md border-transparent
-               bg-gray-700 bg-opacity-80 text-white text-lg leading-tight
-               focus:bg-opacity-100 focus:ring-4 focus:ring-blue-500
-               focus:border-blue-500 h-12" placeholder="소환사명을 입력하세요">
+        <input type="text" name="summonerName" id="summonerName" required
+               class="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-700 placeholder-gray-500 text-white text-center rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+               placeholder="소환사명을 입력하세요">
       </div>
-      <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+    </div>
+
+    <div>
+      <button type="submit"
+              class="group relative w-full flex justify-center py-4 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
         검색하기
       </button>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
-<footer class="w-full text-center py-4 bg-gray-800 bg-opacity-90 text-gray-400">
-  &copy; 2024 LOLP.GG. All rights reserved.
-</footer>
+
 
 <script>
   document.getElementById('searchForm').addEventListener('submit', function(event) {

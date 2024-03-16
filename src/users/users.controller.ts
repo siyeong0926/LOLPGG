@@ -23,6 +23,7 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './entities/user.entity';
 import { AuthGuard } from '../guards/auth.guard';
 import { Response } from 'express';
+import { LolService } from '../search/lol.service';
 
 /**
  * @description 데코레이터
@@ -48,6 +49,7 @@ export class UsersController {
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
+    private lolService: LolService,
   ) {}
 
   // @Get('/whoami')
@@ -59,6 +61,33 @@ export class UsersController {
    * @param user @CurrentUser() 데코레이터를 통해
    * 현재 사용자 정보를 취득해서 user 에 담음
    */
+
+  @Get('/ranking')
+  @Render('ranking')
+  async getTopRanking(@Query('queue') queue: string) {
+    // 적절한 queue 값을 받지 못했을 경우 기본값으로 'RANKED_SOLO_5x5' 설정
+    if (!queue) {
+      queue = 'RANKED_SOLO_5x5';
+    }
+
+    console.log(`랭킹 조회 대기열: ${queue}`);
+
+    try {
+      // 상위 100위 소환사 목록을 가져옴
+      const topPlayers = await this.lolService.getChallengerPlayers(queue);
+      console.log(
+        `상위 랭킹 소환사 정보 조회됨, 소환사 수: ${topPlayers.length}`,
+      );
+
+      // 가져온 상위 소환사 목록을 렌더링할 페이지에 전달
+      return {
+        topPlayers,
+      };
+    } catch (error) {
+      console.error(`오류 발생: ${error.message}`);
+      throw error;
+    }
+  }
 
   @Get('/profile')
   @UseGuards(AuthGuard)

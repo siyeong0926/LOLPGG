@@ -112,6 +112,38 @@ export class LolService {
     }
   }
 
+  // 상위 랭킹 사용자 목록 가져오기
+  async getChallengerPlayers(queue: string): Promise<any[]> {
+    const url = `${this.baseUrl}/lol/league/v4/challengerleagues/by-queue/${queue}`;
+    const headers = this.createHeaders();
+
+    try {
+      const response = await lastValueFrom(
+        this.httpService.get(url, { headers }),
+      );
+      const players = response.data.entries;
+
+      // LP(리그 포인트)로 내림차순 정렬
+      const sortedPlayers = players.sort(
+        (a, b) => b.leaguePoints - a.leaguePoints,
+      );
+
+      // 상위 100명의 플레이어만 반환
+      return sortedPlayers.slice(0, 100);
+    } catch (error) {
+      console.error('getChallengerPlayers 요청 중 에러 발생:', error);
+      throw error;
+    }
+  }
+
+  // 사용자 랭킹 정보 가져오기
+  async userRanking(queue: string): Promise<any> {
+    // Challenger 랭킹을 가져오는 다른 메소드 사용
+    const challengers = await this.getChallengerPlayers(queue);
+    // 필요한 작업을 수행하고 결과를 반환합니다.
+    return challengers;
+  }
+
   // //최근 경기 가져오기
   // async getRecentMatches(matchesPuuid: string) {
   //   const url = `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${encodeURIComponent(
