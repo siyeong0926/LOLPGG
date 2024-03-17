@@ -96,20 +96,20 @@ describe('AuthService 테스트', () => {
 
   it('가입되지 않은 이메일로 로그인 할 때 예외 발생', async () => {
     await expect(
-      service.signin('asdflkj@asdlfkj.com', 'passdflkj'),
+      service.login('asdflkj@asdlfkj.com', 'passdflkj'),
     ).rejects.toThrow(NotFoundException);
   });
 
   it('잘못된 비밀번호 입력시 예외 발생', async () => {
     await service.signup('laskdjf@alskdfj.com', 'password');
     await expect(
-      service.signin('laskdjf@alskdfj.com', 'laksdlfkj'),
+      service.login('laskdjf@alskdfj.com', 'laksdlfkj'),
     ).rejects.toThrow(BadRequestException);
   });
 
   it('비밀번호가 올바르면 사용자 반환', async () => {
     await service.signup('asdf@asdf.com', 'mypassword');
-    const user = await service.signin('asdf@asdf.com', 'mypassword');
+    const user = await service.login('asdf@asdf.com', 'mypassword');
     expect(user).toBeDefined();
   });
 });

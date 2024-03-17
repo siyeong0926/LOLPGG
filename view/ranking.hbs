@@ -3,22 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>소환사 랭킹 TOP20</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0/dist/tailwind.min.css" rel="stylesheet">
+  <title>소환사 랭킹 TOP20</title>
+
   <style>
     .bg-theme-gradient {
-      background-image: linear-gradient(to right, #0a0a0a, #2c3e50);
+      background-image: linear-gradient(to right, #131313, #2c3e50);
     }
+
+    @keyframes rainbow-text-animation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+
     .text-enhanced {
       color: #e2e8f0; /* 밝은 회색으로 가독성 향상 */
       font-weight: bold;
     }
     .icon {
-      width: 20px;
-      height: 20px;
+      width: 40px; /* 아이콘 크기 조정 */
+      height: 40px; /* 아이콘 크기 조정 */
       background-size: cover;
       display: inline-block;
-      margin-right: 8px;
+      border-radius: 50%; /* 원형으로 만들기 */
+      vertical-align: middle; /* 소환사 이름과 정렬 */
     }
     .table-header {
       background-color: #4a5568; /* Tailwind CSS gray-700 */
@@ -26,6 +36,7 @@
     .table-cell {
       background-color: #2d3748; /* Tailwind CSS gray-800 */
       color: #e2e8f0; /* 밝은 회색 텍스트 */
+      vertical-align: middle; /* 셀 내용을 중앙 정렬 */
     }
 
       .custom-gradient-text {
@@ -47,14 +58,17 @@
         color: transparent;
         background-clip: text;
         -webkit-background-clip: text; /* Chrome과 Safari를 위한 벤더 프리픽스 */
+        animation: rainbow-text-animation 2s linear infinite;
 
       }
 
   </style>
 </head>
 <body class="bg-theme-gradient min-h-screen flex flex-col items-center justify-center">
+
 <header class="text-center py-6">
-    <a href="/lolp.gg" class="text-4xl font-bold custom-gradient-text mb-4">LOLP.GG</a>
+  <a href="/lolp.gg" class="text-4xl font-bold custom-gradient-text mb-4 ">LOLP.GG</a>
+  <div style="height: 30px;"></div>
   <h1 class="text-5xl text-white font-bold mb-2">소환사 랭킹 TOP20</h1>
   <p class="text-lg text-gray-400 mb-4">League of Legends 공식 랭킹</p>
 </header>
@@ -90,26 +104,26 @@
       <tbody>
       {{#each topPlayers as |player index|}}
         <tr>
-          <td class="px-1 py-5 table-cell text-sm text-center">
+          <td class="px-1 py-5 table-cell text-base text-center">
             {{inc index}}
           </td>
-          <td class="px-5 py-5 table-cell text-m flex text-center items-center justify-center">
+          <td class="px-5 py-5 table-cell text-base flex text-center items-center justify-center">
             <span class="icon" style="background-image: url('http://ddragon.leagueoflegends.com/cdn/14.5.1/img/profileicon/{{player.profileIconId}}.png');"></span>
             {{player.summonerName}}
           </td>
-          <td class="px-5 py-5 table-cell text-m text-center">
+          <td class="px-5 py-5 table-cell text-base text-center font-semibold text-green-500">
             Challenger
           </td>
-          <td class="px-5 py-5 table-cell text-m text-center">
+          <td class="px-5 py-5 table-cell text-base text-center font-semibold text-purple-500">
             {{player.leaguePoints}}
           </td>
-          <td class="px-5 py-5 table-cell text-m text-center">
+          <td class="px-5 py-5 table-cell text-base text-center font-semibold text-pink-500">
             {{player.level}}
           </td>
-          <td class="px-5 py-5 table-cell text-m text-center">
+          <td class="px-5 py-5 table-cell text-base text-center font-semibold text-blue-500">
             {{player.wins}}
           </td>
-          <td class="px-5 py-5 table-cell text-m text-center">
+          <td class="px-5 py-5 table-cell text-base text-center font-semibold text-red-500">
             {{player.losses}}
           </td>
         </tr>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css">
+  <title>무료 챔피언 로테이션</title>
+  <style>
+    .custom-gradient {
+      background-image: linear-gradient(to right, #131313, #2c3e50);
+    }
+    .champion-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+    .champion-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    .champion-item:hover {
+      transform: scale(1.05);
+    }
+    .custom-gold {
+      color: #ffd700;
+    }
+
+    .custom-gradient-text {
+      background-image: linear-gradient(to right, #f6d365, #fda085);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+  </style>
+</head>
+<body class="custom-gradient min-h-screen flex flex-col items-center justify-center text-white">
+<header class="text-center py-6">
+  <a href="/lolp.gg" class="text-4xl font-bold custom-gradient-text">LOLP.GG</a>
+</header>
+
+<main class="w-full max-w-4xl mx-auto">
+  <section class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+    <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r
+    from-yellow-400 to-yellow-600">이번 주 무료 챔피언</h1>
+    <div style="height: 30px;"></div>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      {{#each champions}}
+        <div class="champion-item">
+          <img src="http://ddragon.leagueoflegends.com/cdn/14.5.1/img/champion/{{this.englishName}}.png" alt="{{this.koreanName}}" class="champion-image">
+          <span>{{this.koreanName}}</span>
+        </div>
+      {{/each}}
+    </div>
+  </section>
+</main>
+</body>
+</html>

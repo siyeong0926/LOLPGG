@@ -4,8 +4,23 @@
   <meta charset="UTF-8">
   <title>회원가입</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .custom-gradient {
+      background-image: linear-gradient(to right, #131313, #2c3e50); /*0a0a0a*/
+    }
+    .custom-gradient-text {
+      background-image: linear-gradient(to right, #f6d365, #fda085);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+  </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<body class="custom-gradient flex flex-col items-center justify-center min-h-screen bg-gray-100">
+
+<header class="w-full text-center py-6 fixed top-0">
+  <a href="/lolp.gg" class="text-4xl font-bold custom-gradient-text">LOLP.GG</a>
+</header>
 
 <div class="rounded-lg shadow-lg w-full max-w-md p-8 bg-white">
   <div class="text-center">
@@ -16,7 +31,11 @@
   <form action="/lolp.gg/user/signup" method="post" class="mt-8 space-y-6">
     <div>
       <label for="email" class="block text-sm font-medium text-gray-700">이메일</label>
-      <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="example@example.com">
+      <input type="email" id="email" name="email"
+             required class="mt-1 block w-full px-3 py-2 border border-gray-300
+             rounded-md shadow-sm placeholder-gray-400 focus:outline-none
+             focus:ring-primary focus:border-primary sm:text-sm"
+             placeholder="aaaaa@aaaa.com">
     </div>
     <div>
       <label for="password" class="block text-sm font-medium text-gray-700">비밀번호</label>
@@ -24,29 +43,32 @@
       <div id="passwordFeedback" class="text-sm text-red-500"></div>
     </div>
     <div class="flex items-center justify-center">
-      <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">회원가입</button>
+      <button type="submit" class="w-full flex justify-center
+      py-2 px-4 border border-transparent rounded-md shadow-sm
+      text-sm font-medium text-white bg-blue-600 hover:bg-blue-700
+      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">회원가입</button>
     </div>
   </form>
 </div>
 
-<!--<script>-->
-<!--  document.addEventListener('DOMContentLoaded', function() {-->
-<!--    const passwordInput = document.getElementById('password');-->
-<!--    const passwordFeedback = document.getElementById('passwordFeedback');-->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const passwordFeedback = document.getElementById('passwordFeedback');
 
-<!--    passwordInput.addEventListener('input', function() {-->
-<!--      const value = passwordInput.value;-->
-<!--      let message = '';-->
-<!--      if (value.length < 8) {-->
-<!--        message = '비밀번호는 8글자 이상이어야 합니다.';-->
-<!--      } else if (!/(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).{8,}/.test(value)) {-->
-<!--        message = '영문, 숫자, 기호 중 2개 이상의 조합이 필요합니다.';-->
-<!--      }-->
+    passwordInput.addEventListener('input', function() {
+      const value = passwordInput.value;
+      let message = '';
+      if (value.length < 8) {
+        message = '비밀번호는 8글자 이상이어야 합니다.';
+      } else if (!/(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).{8,}/.test(value)) {
+        message = '영문, 숫자, 기호 중 2개 이상의 조합이 필요합니다.';
+      }
 
-<!--      passwordFeedback.textContent = message;-->
-<!--    });-->
-<!--  });-->
-<!--</script>-->
+      passwordFeedback.textContent = message;
+    });
+  });
+</script>
 
 </body>
 </html>

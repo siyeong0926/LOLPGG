@@ -6,8 +6,14 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
   <style>
     .custom-gradient {
-      background-image: linear-gradient(to right, #0a0a0a, #2c3e50);
+      background-image: linear-gradient(to right, #1f1f1f, #2c3e50);
     }
+    .custom-gradient-text {
+      background-image: linear-gradient(to right, #f6d365, #fda085);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
   </style>
 </head>
 <body class="custom-gradient min-h-screen flex items-center justify-center p-6">
@@ -16,22 +22,31 @@
 
 <div class="max-w-2xl w-full space-y-8">
   <div class="text-center">
-    <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">소환사 검색</h1>
+    <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r
+    from-yellow-400 to-yellow-600">소환사 검색</h1>
     <p class="mt-2 text-white text-lg">LOLP.GG에서 소환사의 전적을 살펴보세요.</p>
   </div>
 
   <form action="/lolp.gg/search" id="lolpggForm" name="lolpgg" method="GET" class="mt-8 space-y-6">
-    <div class="rounded-md shadow-sm">
+    <div class="rounded-md shadow-sm w-4/5 mx-auto">
       <div>
         <input type="text" name="summonerName" id="summonerName" required
-               class="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-700 placeholder-gray-500 text-white text-center rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+               class="appearance-none rounded-none relative block w-full
+               px-3 py-4 border border-gray-700 placeholder-gray-500
+               text-white text-center rounded-t-md focus:outline-none
+               focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                placeholder="소환사명을 입력하세요">
       </div>
     </div>
 
-    <div>
+    <div class=" w-4/5 mx-auto">
       <button type="submit"
-              class="group relative w-full flex justify-center py-4 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+              class="group relative w-full flex justify-center
+              py-4 px-4 border border-transparent text-lg font-medium
+              rounded-md text-white bg-gradient-to-r from-yellow-500
+              to-yellow-600 hover:from-yellow-600 hover:to-yellow-700
+              focus:outline-none focus:ring-2 focus:ring-offset-2
+              focus:ring-yellow-500">
         검색하기
       </button>
     </div>

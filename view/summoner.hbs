@@ -7,7 +7,7 @@
   <title>소환사 프로필</title>
   <style>
     .custom-gradient-bg {
-      background-image: linear-gradient(to right, #0a0a0a, #2c3e50);
+      background-image: linear-gradient(to right, #131313, #2c3e50);
     }
     .custom-gradient-text {
       background-image: linear-gradient(to right, #f6d365, #fda085);
@@ -53,12 +53,33 @@
   </section>
 
   <section class="bg-gray-750 rounded-lg shadow-lg p-6 mb-6">
+    <h2 class="text-3xl font-bold mb-6 text-center text-yellow-300">최근 20게임 플레이한 챔피언</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {{#each championPerformance}}
+        <div class="bg-gray-750 rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-gray-600 transition duration-300 ease-in-out">
+          <img
+            alt="{{this.championKoreanName}}"
+            class="w-24 h-24 mb-2 rounded-full"
+            src="http://ddragon.leagueoflegends.com/cdn/14.5.1/img/champion/{{this.championName}}.png">
+          <div class="text-center">
+            <p class="text-lg font-semibold text-yellow-200">{{this.championKoreanName}}</p>
+            <p class="text-sm text-yellow-100">승리: {{this.wins}}</p>
+            <p class="text-sm text-yellow-100">패배: {{this.losses}}</p>
+            <p class="text-sm text-yellow-100">승률: {{this.winrate}}%</p>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </section>
+
+
+  <section class="bg-gray-750 rounded-lg shadow-lg p-6 mb-6">
     <h2 class="text-3xl font-bold mb-6 text-center text-yellow-300">챔피언 숙련도</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
       {{#each masteryWithNames}}
         <div class="bg-gray-750 rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-gray-600 transition duration-300 ease-in-out">
           <img
-            alt="{{this.championName}}"
+            alt="{{this.championKoreanName}}"
             class="w-24 h-24 mb-2 rounded-full"
             src="http://ddragon.leagueoflegends.com/cdn/14.5.1/img/champion/{{this.englishName}}.png">
           <div class="text-center">

@@ -4,8 +4,23 @@
   <meta charset="UTF-8">
   <title>Login</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .custom-gradient {
+      background-image: linear-gradient(to right, #0a0a0a, #2c3e50);
+    }
+    .custom-gradient-text {
+      background-image: linear-gradient(to right, #f6d365, #fda085);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+  </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<body class="custom-gradient flex flex-col items-center justify-center min-h-screen bg-gray-100">
+
+<header class="w-full text-center py-6 fixed top-0">
+  <a href="/lolp.gg" class="text-4xl font-bold custom-gradient-text">LOLP.GG</a>
+</header>
+
 
 <div class="rounded-lg shadow-lg w-full max-w-md p-8 bg-white">
   <div class="text-center">

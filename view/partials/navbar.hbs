@@ -6,10 +6,15 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css">
   <style>
     .custom-gradient {
-      background-image: linear-gradient(to right, #0a0a0a, #2c3e50);
+      background-image: linear-gradient(to right, #131313, #2c3e50);
     }
     .custom-gold {
       color: #ffd700;
+    }
+    .custom-gradient-text {
+      background-image: linear-gradient(to right, #f6d365, #fda085);
+      -webkit-background-clip: text;
+      color: transparent;
     }
   </style>
 </head>
@@ -20,13 +25,14 @@
     <div class="flex items-center justify-between h-16">
       <!-- 로고 및 제목 중앙 정렬 -->
       <div class="flex-shrink-0 flex items-center">
-        <a href="/lolp.gg" class="text-white font-bold text-2xl hover:text-custom-gold transition duration-300 ease-in-out">LOLP.GG</a>
+        <a href="/lolp.gg" class="custom-gradient-text font-bold text-2xl
+        hover:text-custom-gold transition duration-300 ease-in-out">LOLP.GG</a>
       </div>
       <!-- 중앙 링크들 -->
       <div class="hidden sm:block">
         <div class="flex space-x-4">
 <!--          <a href="#" class="text-white hover:text-custom-gold px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">홈</a>-->
-          <a href="#" class="text-white hover:text-custom-gold px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">챔피언 분석</a>
+          <a href="/lolp.gg/search/rotation" class="text-white hover:text-custom-gold px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">이번 주 무료 챔피언</a>
           <a href="/lolp.gg/search/ranking" class="text-white hover:text-custom-gold px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">랭킹</a>
         </div>
       </div>
