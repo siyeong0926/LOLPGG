@@ -142,6 +142,7 @@ export class LolService {
       );
       const champions = response.data.data;
       const championMap = {};
+
       for (const key in champions) {
         const champion = champions[key];
         // 챔피언 ID를 키로 하고, 영문 이름과 한글 이름을 값으로 하는 객체를 저장

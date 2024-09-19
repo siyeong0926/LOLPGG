@@ -45,9 +45,9 @@ export class AuthService {
    *
    * @param email 사용자 이메일.
    * @param password 사용자 비밀번호.
-   * @returns 액세스 토큰을 반환합니다.
-   * @throws {NotFoundException} 사용자를 찾을 수 없는 경우 예외를 발생시킵니다.
-   * @throws {BadRequestException} 비밀번호가 틀린 경우 예외를 발생시킵니다.
+   * @returns 액세스 토큰을 반환
+   * @throws {NotFoundException} 사용자를 찾을 수 없는 경우 예외를 발생
+   * @throws {BadRequestException} 비밀번호가 틀린 경우 예외를 발생
    */
   async login(email: string, password: string) {
     const [user] = await this.userService.find(email);
