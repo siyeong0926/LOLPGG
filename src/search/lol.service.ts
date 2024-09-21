@@ -22,20 +22,104 @@ export class LolService {
     this.apiKey = this.configService.get<string>('RIOT_API_KEY');
   }
 
-  //소환사 NAME을 이용하여 소환사 정보를 조회.
-  async findSummonerByName(summonerName: string): Promise<SummonerDto> {
-    const region = 'kr';
-    const url = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${encodeURIComponent(
-      summonerName,
+  //소환사 NAME을 이용하여 소환사 정보를 조회. ( 0919 기준 앞으로 폐기 예정이라함 )
+  // async findSummonerByName(summonerName: string): Promise<SummonerDto> {
+  //   const region = 'kr';
+  //   const url = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${encodeURIComponent(
+  //     summonerName,
+  //   )}`;
+  //   const headers = this.createHeaders();
+  //
+  //   try {
+  //     const response = this.httpService.get(url, { headers });
+  //     const data = await lastValueFrom(response);
+  //     return data.data;
+  //   } catch (error) {
+  //     console.error('API 요청 중 에러 발생:', error);
+  //     throw error;
+  //   }
+  // }
+
+  // Riot ID로 소환사 검색 할 수 있는 정보 가져오기
+  async getSummonerInfoByRiotId(
+    gameName: string,
+    tagLine: string,
+  ): Promise<SummonerDto> {
+    try {
+      // Riot ID로 PUUID 조회
+      const riotIdUrl = `https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`;
+
+      console.error('riotIdUrl 출력', riotIdUrl);
+
+      const riotIdResponse = await lastValueFrom(
+        this.httpService.get(riotIdUrl, {
+          headers: this.createHeaders(),
+        }),
+      );
+
+      const puuid = riotIdResponse.data.puuid;
+      console.error('puuid 출력 : ', puuid);
+      if (!puuid) {
+        throw new Error(
+          'PUUID 조회 실패: Riot API에서 PUUID가 반환되지 않았습니다.',
+        );
+      }
+
+      // PUUID를 이용해 소환사 정보 조회
+      const summonerInfoUrl = `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`;
+
+      const summonerInfoResponse = await lastValueFrom(
+        this.httpService.get(summonerInfoUrl, {
+          headers: this.createHeaders(),
+        }),
+      );
+
+      return summonerInfoResponse.data;
+    } catch (error) {
+      // HTTP 오류인 경우 상태 코드와 응답 데이터를 로그로 출력
+      if (error.response) {
+        console.error(`HTTP 오류 발생 - 상태 코드: ${error.response.status}`);
+        console.error(`오류 데이터:`, error.response.data);
+
+        // 상태 코드에 따른 메시지 추가
+        if (error.response.status === 404) {
+          console.error(
+            '소환사 정보를 찾을 수 없습니다. 잘못된 Riot ID일 수 있습니다.',
+          );
+        } else if (error.response.status === 403) {
+          console.error(
+            'API 인증 실패: API Key가 유효하지 않거나 권한이 없습니다.',
+          );
+        } else if (error.response.status === 429) {
+          console.error('Rate Limit 초과: 너무 많은 요청을 보냈습니다.');
+        }
+      } else {
+        // 일반적인 오류 처리 (네트워크 문제 등)
+        console.error(
+          'API 요청 중 네트워크 또는 서버 오류 발생:',
+          error.message,
+        );
+      }
+
+      throw error; // 예외를 다시 던져서 상위 호출자가 처리할 수 있도록 함
+    }
+  }
+
+  // Riot ID로 소환사 조회
+  async findSummonerByRiotId(puuid: string): Promise<SummonerDto> {
+    const url = `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${encodeURIComponent(
+      puuid,
     )}`;
+
     const headers = this.createHeaders();
 
     try {
-      const response = this.httpService.get(url, { headers });
-      const data = await lastValueFrom(response);
-      return data.data;
+      const response = await lastValueFrom(
+        this.httpService.get(url, { headers }),
+      );
+      return response.data;
     } catch (error) {
-      console.error('API 요청 중 에러 발생:', error);
+      console.error('findSummonerByRiotId 요청 중 에러 발생:', error);
       throw error;
     }
   }
@@ -46,12 +130,14 @@ export class LolService {
     const url = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/${encodeURIComponent(
       summonerId,
     )}`;
+
     const headers = this.createHeaders();
 
     try {
       const response = await lastValueFrom(
         this.httpService.get<SummonerDto>(url, { headers }),
       );
+      //console.error('소환사 정보 조회 출력 : ', response);
       return response.data;
     } catch (error) {
       console.error('findSummonerById API 요청 중 에러 발생:', error);
@@ -100,9 +186,32 @@ export class LolService {
       const sortedPlayers = players.sort(
         (a, b) => b.leaguePoints - a.leaguePoints,
       );
+      // 소환사 이름을 추가로 조회
+      const detailedPlayers = await Promise.all(
+        sortedPlayers.slice(0, 10).map(async (player) => {
+          await this.delay(1000); // API 요청 간에 1초 간격을 추가
+
+          console.log('player 출력 : ', player);
+          // 소환사 ID로 소환사 이름을 조회
+          const summonerDetails = await this.findSummonerById(
+            player.summonerId,
+          );
+          // const summonerDetailsPuuid = await this.findSummonerByRiotId(
+          //   summonerDetails.puuid,
+          // );
+          console.error('summonerDetails 출력', summonerDetails);
+          // console.error('summonerDetailsPuuid 출력', summonerDetailsPuuid);
+
+          return {
+            ...player,
+            summonerName: summonerDetails.name, // 소환사 이름 추가
+            profileIconId: summonerDetails.profileIconId, // 소환사 아이콘 추가
+          };
+        }),
+      );
 
       // 상위 20명 플레이어만 반환
-      return sortedPlayers.slice(0, 20);
+      return detailedPlayers;
     } catch (error) {
       console.error('getChallengerPlayers 요청 중 에러 발생:', error);
       throw error;
@@ -132,8 +241,8 @@ export class LolService {
 
   // 리그오브레전드 소환사 모든 챔피언 정보를 불러온 후 챔피언 id, 영어 이름 ,한글 이름 매핑
   async getChampionMap() {
-    const url = `http://ddragon.leagueoflegends.com/cdn/14.5.1/data/ko_KR/champion.json`;
-
+    const url = `http://ddragon.leagueoflegends.com/cdn/14.18.1/data/ko_KR/champion.json`;
+    //https://ddragon.leagueoflegends.com/api/versions.json 여기서 최신 버전 확인
     const headers = this.createHeaders();
 
     try {

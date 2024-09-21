@@ -11,21 +11,32 @@ export class SearchController {
   /**
    * 소환사 이름으로 소환사 정보를 검색하고 결과를 반환
    *
-   * @param {string} summonerName 검색할 소환사의 이름.
    * @returns 검색된 소환사 정보, 랭크, 숙련도, 최근 성능 등을 포함하는 객체.
+   * @param gameName
+   * @param tagLine
    */
-  @Get()
+  @Get('')
   @Render('summoner')
   async summonerSearch(@Query('summonerName') summonerName: string) {
-    if (!summonerName) {
-      throw new Error('소환사 이름이 필요합니다.');
-    }
-
-    this.logger.log(`소환사 이름 : ${summonerName}`);
-
     try {
+      // summonerName을 로그로 출력하여 확인
+      this.logger.log(`입력된 summonerName: ${summonerName}`);
+
+      // summonerName에서 gameName과 tagLine을 분리
+      const [gameName, tagLine] = summonerName.split('#');
+
+      // gameName과 tagLine이 제대로 분리되었는지 확인
+      this.logger.log(`gameName: ${gameName}, tagLine: ${tagLine}`);
+
+      // 로그로 확인
+      console.log('gameName 출력 : ', summonerName);
+
       // 소환사 이름으로 소환사 정보 조회
-      const summoner = await this.lolService.findSummonerByName(summonerName);
+      const summoner = await this.lolService.getSummonerInfoByRiotId(
+        gameName,
+        tagLine,
+      );
+
       this.logger.log(`소환사 정보 조회됨: ${summoner.name}`);
       await this.delay(500); // 딜레이 추가
 
@@ -129,8 +140,10 @@ export class SearchController {
         topPlayers: detailedPlayers,
       };
     } catch (error) {
-      console.error(`오류 발생: ${error.message}`);
-      throw error;
+      // 오류 출력 시 전체 에러 객체를 출력하도록 수정
+      this.logger.error(`오류 발생: ${error.message}`);
+      this.logger.error(error); // 전체 오류 객체를 출력
+      throw new Error('사용자 정보를 가져 올 수 없음');
     }
   }
 

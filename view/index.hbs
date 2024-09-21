@@ -33,7 +33,7 @@
         <input type="text" name="summonerName" id="summonerName" required
                class="appearance-none rounded-none relative block w-full
                px-3 py-4 border border-gray-700 placeholder-gray-500
-               text-white text-center rounded-t-md focus:outline-none
+               text-black text-center rounded-t-md focus:outline-none
                focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                placeholder="소환사명을 입력하세요">
       </div>
@@ -58,8 +58,12 @@
 <script>
   document.getElementById('lolpggForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    var summonerName = document.getElementById('summonerName').value;
-    window.location.href = '/lolp.gg/search?summonerName=' + encodeURIComponent(summonerName);
+
+    var summonerNameInput = document.getElementById('summonerName');
+    var summonerName = summonerNameInput.value; // input 요소의 value 가져오기
+    // URL 인코딩 (특수문자 처리)
+    var encodedSummonerName = encodeURIComponent(summonerName);
+    window.location.href = `/lolp.gg/search?summonerName=${encodedSummonerName}`;
   });
 </script>
 
