@@ -8,10 +8,6 @@
   ],
   "routes": [
     {
-      "src": "/static/(.*)", // static 폴더 경로 수정
-      "dest": "/view/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "dist/main.js"
     }
