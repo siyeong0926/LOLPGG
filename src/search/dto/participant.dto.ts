@@ -1,4 +1,4 @@
-import { PerkStatsDto } from './Perks.dto';
+import { PerkStatsDto } from './perkstats.dto';
 
 export class ParticipantDto {
   assists: number;
